@@ -2,10 +2,23 @@
   "name": "photochute-thumbnail-creator",
   "version": "1.0.0",
   "description": "",
-  "scripts": {
-    "start": "func start",
-    "test": "echo \"No tests yet...\""
+  "main": "index.js",
+  "dependencies": {
+    "@azure/storage-blob": "^12.6.0",
+    "jimp": "^0.2.28"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/craigrobertsdev/photochute-thumbnail-creator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/craigrobertsdev/photochute-thumbnail-creator/issues"
+  },
+  "homepage": "https://github.com/craigrobertsdev/photochute-thumbnail-creator#readme"
 }
