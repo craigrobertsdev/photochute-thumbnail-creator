@@ -1,12 +1,18 @@
 {
+  "disabled": false,
   "bindings": [
     {
+      "type": "eventGridTrigger",
+      "name": "myEvent",
+      "direction": "in"
+    },
+    {
       "name": "myBlob",
-      "type": "blobTrigger",
+      "type": "blob",
       "direction": "in",
-      "path": "samples-workitems/{name}",
-      "source": "EventGrid",
-      "connection": "photochutethumbnails_STORAGE"
+      "path": "{data.url}",
+      "connection": "AZURE_STORAGE_CONNECTION_STRING",
+      "datatype": "binary"
     }
   ]
 }
