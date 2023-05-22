@@ -5,12 +5,18 @@ const { BlockBlobClient } = require("@azure/storage-blob");
 const ONE_MEGABYTE = 1024 * 1024;
 const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 
-const containerName = process.env.BLOB_CONTAINER_NAME;
+const containerName = context.bindingData.data.url.split("/")[1];
 const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
 
 module.exports = async function (context, eventGridEvent, inputBlob) {
   const blobUrl = context.bindingData.data.url;
-  const blobName = blobUrl.slice(blobUrl.lastIndexOf("/") + 1);
+  const originalBlobName = blobUrl.slice(blobUrl.lastIndexOf("/") + 1);
+
+  // separate the file name from extension and insert "-thumbnail" at the end of the file name before the extension
+  const fileName = originalBlobName.slice(0, originalBlobName.lastIndexOf(".") - 1);
+  const fileExtension = originalBlobName.slice(originalBlobName.lastIndexOf("."));
+  const blobName = fileName + "-thumbnail" + fileExtension;
+
   const widthInPixels = 250;
   Jimp.read(inputBlob).then((thumbnail) => {
     thumbnail.resize(widthInPixels, Jimp.AUTO);
