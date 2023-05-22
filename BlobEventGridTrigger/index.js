@@ -12,8 +12,8 @@ module.exports = async function (context, eventGridEvent, inputBlob) {
   const originalBlobName = blobUrl.slice(blobUrl.lastIndexOf("/") + 1);
 
   // separate the file name from extension and insert "-thumbnail" at the end of the file name before the extension
-  const fileName = originalBlobName.slice(0, originalBlobName.lastIndexOf(".") - 1);
-  const fileExtension = originalBlobName.slice(originalBlobName.lastIndexOf(".") + 1);
+  const fileName = originalBlobName.slice(0, originalBlobName.lastIndexOf("."));
+  const fileExtension = originalBlobName.slice(originalBlobName.lastIndexOf("."));
   const blobName = fileName + "-thumbnail" + fileExtension;
 
   const widthInPixels = 250;
