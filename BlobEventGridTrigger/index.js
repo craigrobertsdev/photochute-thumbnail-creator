@@ -18,7 +18,7 @@ module.exports = async function (context, eventGridEvent, inputBlob) {
 
   const widthInPixels = 250;
   Jimp.read(inputBlob).then((thumbnail) => {
-    thumbnail.resize(widthInPixels, Jimp.AUTO);
+    thumbnail.resize(widthInPixels, Jimp.AUTO).quality(50);
 
     thumbnail.getBuffer(Jimp.MIME_PNG, async (err, buffer) => {
       const readStream = stream.PassThrough();
