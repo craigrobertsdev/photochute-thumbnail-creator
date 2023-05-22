@@ -5,7 +5,7 @@ const { BlockBlobClient } = require("@azure/storage-blob");
 const ONE_MEGABYTE = 1024 * 1024;
 const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 
-const containerName = context.bindingData.data.url.split("/")[1];
+const containerName = context.bindingData.data.url.split("/")[3];
 const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
 
 module.exports = async function (context, eventGridEvent, inputBlob) {
