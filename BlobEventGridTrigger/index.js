@@ -10,12 +10,12 @@ module.exports = async function (context, eventGridEvent, inputBlob) {
   const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
   const blobUrl = context.bindingData.data.url;
   const containerName = blobUrl.split("/")[3];
-  const blobName = blobUrl.slice(blobUrl.lastIndexOf("/") + 1);
+  // const blobName = blobUrl.slice(blobUrl.lastIndexOf("/") + 1);
 
   // separate the file name from extension and insert "-thumbnail" at the end of the file name before the extension
-  // const fileName = originalBlobName.slice(0, originalBlobName.lastIndexOf("."));
-  // const fileExtension = originalBlobName.slice(originalBlobName.lastIndexOf("."));
-  // const blobName = fileName + "-thumbnail" + fileExtension;
+  const fileName = originalBlobName.slice(0, originalBlobName.lastIndexOf("."));
+  const fileExtension = originalBlobName.slice(originalBlobName.lastIndexOf("."));
+  const blobName = fileName + "-thumbnail" + fileExtension;
 
   const widthInPixels = 250;
   Jimp.read(inputBlob).then((thumbnail) => {
