@@ -6,9 +6,10 @@ const ONE_MEGABYTE = 1024 * 1024;
 const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 
 module.exports = async function (context, eventGridEvent, inputBlob) {
-  const containerName = "thumbnails";
+  // const containerName = "thumbnails";
   const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
   const blobUrl = context.bindingData.data.url;
+  const containerName = blobUrl.split("/")[3];
   const blobName = blobUrl.slice(blobUrl.lastIndexOf("/") + 1);
 
   // separate the file name from extension and insert "-thumbnail" at the end of the file name before the extension
