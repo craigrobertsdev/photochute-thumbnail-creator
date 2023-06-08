@@ -8,7 +8,8 @@ const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 module.exports = async function (context, eventGridEvent, inputBlob) {
   const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
   const blobUrl = context.bindingData.data.url;
-  const containerName = blobUrl.split("/")[3];
+  // const containerName = blobUrl.split("/")[3];
+  const containerName = "thumbnails";
   const blobName = blobUrl.slice(blobUrl.lastIndexOf("/") + 1);
 
   const widthInPixels = 250;
