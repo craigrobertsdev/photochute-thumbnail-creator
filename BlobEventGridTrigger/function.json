@@ -1,5 +1,6 @@
 {
   "disabled": false,
+  "entryPoint": "index.js",
   "bindings": [
     {
       "type": "eventGridTrigger",
