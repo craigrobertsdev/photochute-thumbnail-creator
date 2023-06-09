@@ -2,15 +2,24 @@ const Jimp = require("jimp");
 const stream = require("stream");
 const { BlockBlobClient } = require("@azure/storage-blob");
 const fetch = require("node-fetch");
+<<<<<<< HEAD
 
+=======
+>>>>>>> 33d5d4da23949791bccb6dbbc8cbbcab925586e5
 const ONE_MEGABYTE = 1024 * 1024;
 const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 
 module.exports = async function (context, eventGridEvent, inputBlob) {
   const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
   const blobUrl = context.bindingData.data.url;
+<<<<<<< HEAD
   const blobName = blobUrl.split("/")[4];
   const containerName = "thumbnails";
+=======
+  // const containerName = blobUrl.split("/")[3];
+  const containerName = "thumbnails";
+  const blobName = blobUrl.slice(blobUrl.lastIndexOf("/") + 1);
+>>>>>>> 33d5d4da23949791bccb6dbbc8cbbcab925586e5
 
   const widthInPixels = 250;
   Jimp.read(inputBlob).then((thumbnail) => {
