@@ -10,25 +10,25 @@ module.exports = async function (context, eventGridEvent, inputBlob) {
   const blobUrl = context.bindingData.data.url;
   const blobName = blobUrl.split("/")[4];
   const containerName = "thumbnails";
-
   const widthInPixels = 250;
-  Jimp.read(inputBlob).then((thumbnail) => {
-    thumbnail.resize(widthInPixels, Jimp.AUTO).quality(80);
 
-    thumbnail.getBuffer(Jimp.MIME_PNG, async (err, buffer) => {
-      const readStream = stream.PassThrough();
-      readStream.end(buffer);
+  Jimp.read(inputBlob)
+    .then((thumbnail) => {
+      thumbnail.resize(widthInPixels, Jimp.AUTO).quality(80);
+      // console.log("inputBlob", inputBlob);
+      // console.log("thumbnail", thumbnail);
+      thumbnail.getBuffer(thumbnail.getMIME(), async (err, buffer) => {
+        const readStream = stream.PassThrough();
+        readStream.end(buffer);
 
-      const blobClient = new BlockBlobClient(connectionString, containerName, blobName);
-      try {
-        await blobClient.uploadStream(
-          readStream,
-          uploadOptions.bufferSize,
-          uploadOptions.maxBuffers,
-          { blobHTTPHeaders: { blobContentType: "image/jpeg" } }
-        );
+        const blobClient = new BlockBlobClient(connectionString, containerName, blobName);
+        blobClient
+          .uploadStream(readStream, uploadOptions.bufferSize, uploadOptions.maxBuffers, {
+            blobHTTPHeaders: { blobContentType: thumbnail.getMIME() },
+          })
+          .then((response) => console.log(response));
 
-        const response = await fetch("https://photochute.herokuapp.com", {
+        fetch("https://photochute.herokuapp.com", {
           headers: {
             "Content-Type": "application/json",
           },
@@ -36,10 +36,11 @@ module.exports = async function (context, eventGridEvent, inputBlob) {
           body: JSON.stringify({
             thumbnailUrl: `https://photochute.blob.core.windows.net/thumbnails/${blobName}`,
           }),
+        }).then((response) => {
+          // console.log(response);
+          // response.json().then((data) => console.log(data));
         });
-      } catch (err) {
-        context.log.error(err);
-      }
-    });
-  });
+      });
+    })
+    .catch((err) => console.log("error generating thumbnail buffer", err));
 };
